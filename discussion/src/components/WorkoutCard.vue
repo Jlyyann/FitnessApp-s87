@@ -3,6 +3,12 @@
     import { Notyf } from 'notyf';
     import api from '../api.js';
 
+    const props = defineProps({
+        workoutData: Object
+    });
+
+    const emit = defineEmits(['workout-updated']);
+
     const notyf = new Notyf();
     const isEditing = ref(false);
     const editName = ref('');
@@ -13,7 +19,8 @@
             const response = await api.patch(`/workouts/completeWorkoutStatus/${id}`);
 
             if (response.status === 200) {
-                window.location.reload();
+                notyf.success('Workout completed successfully');
+                emit('workout-updated');
             } else {
                 notyf.error('Workout Update Failed. Please contact administrator.');
             }
@@ -28,7 +35,8 @@
             const response = await api.delete(`/workouts/deleteWorkout/${id}`);
 
             if (response.status === 200) {
-                window.location.reload();
+                notyf.success('Workout deleted successfully');
+                emit('workout-updated');
             } else {
                 notyf.error('Workout Delete Failed. Please contact administrator.');
             }
@@ -44,7 +52,7 @@
 
             if (response.status === 200) {
                 notyf.success('Workout updated successfully');
-                window.location.reload();
+                emit('workout-updated');
             } else {
                 notyf.error('Workout Update Failed. Please contact administrator.');
             }
@@ -73,14 +81,6 @@
         });
         isEditing.value = false;
     }
-</script>
-
-<script>
-    export default {
-        props: {
-            workoutData: Object
-        }
-    };
 </script>
 
 <template>

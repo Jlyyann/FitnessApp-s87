@@ -14,6 +14,11 @@
             const { user } = useGlobalStore();
             const workouts = reactive({ data: [] });
 
+            async function fetchWorkouts() {
+                let { data } = await api.get('/workouts/getMyWorkouts');
+                workouts.data = data.workouts;
+            }
+
             onBeforeMount(() => {
                 if (!user.token) {
                     router.push({ path: '/login' });
@@ -21,13 +26,13 @@
             });
 
             watch([user], async () => {
-                let { data } = await api.get('/workouts/getMyWorkouts');
-                workouts.data = data.workouts;
+                await fetchWorkouts();
             }, { immediate: true });
 
             return {
                 workouts,
-                user
+                user,
+                fetchWorkouts
             };
         }
     };
@@ -53,6 +58,6 @@
     </div>
 
     <div class="row mt-3">
-        <WorkoutCard v-for="workout in workouts.data" :workoutData="workout" :key="workout._id" />
+        <WorkoutCard v-for="workout in workouts.data" :workoutData="workout" :key="workout._id" @workout-updated="fetchWorkouts" />
     </div>
 </template>
