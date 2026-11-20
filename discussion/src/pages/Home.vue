@@ -1,3 +1,9 @@
+<script setup>
+    import { useGlobalStore } from '../stores/global';
+
+    const { user } = useGlobalStore();
+</script>
+
 <template>
     <section class="landing-hero">
         <div class="landing-inner">
@@ -7,16 +13,9 @@
                 <p>Manage your workouts, follow your progress, and build the consistency that gets results.</p>
 
                 <div class="landing-actions">
-                    <router-link :to="{ name: 'Register' }" class="hero-button">Start training →</router-link>
-                    <router-link :to="{ name: 'Login' }" class="secondary-button">Log in</router-link>
-                </div>
-            </div>
-
-            <div class="landing-photo">
-                <img :src="'/landing-fitness.jpg'" alt="Athlete preparing for an intense training session">
-                <div class="photo-caption">
-                    <span>LIVE PROGRESS</span>
-                    <strong>Every session counts.</strong>
+                    <router-link :to="{ name: 'AddWorkouts' }" class="hero-button" v-if="user.email">Start training →</router-link>
+                    <router-link :to="{ name: 'Register' }" class="hero-button" v-else>Start training →</router-link>
+                    <router-link :to="{ name: 'Login' }" class="secondary-button" v-if="!user.email">Log in</router-link>
                 </div>
             </div>
         </div>
@@ -52,6 +51,7 @@
             <span>READY TO BEGIN?</span>
             <h2>Your next workout starts here.</h2>
         </div>
-        <router-link :to="{ name: 'Register' }" class="hero-button">Create account →</router-link>
+        <router-link :to="{ name: 'WorkoutsPage' }" class="hero-button" v-if="user.email">View workouts →</router-link>
+        <router-link :to="{ name: 'Register' }" class="hero-button" v-else>Create account →</router-link>
     </section>
 </template>

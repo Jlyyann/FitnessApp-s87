@@ -61,7 +61,7 @@
             </div>
 
             <div class="card-footer d-flex justify-content-around">
-                <button class="btn btn-primary btn-sm" v-on:click="completeWorkout(workoutData._id)">Complete</button>
+                <button class="btn btn-primary btn-sm" v-if="workoutData.status !== 'completed'" v-on:click="completeWorkout(workoutData._id)">Complete</button>
                 <button class="btn btn-danger btn-sm" v-on:click="deleteWorkout(workoutData._id)">Delete</button>
             </div>
         </div>

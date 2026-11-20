@@ -1,8 +1,7 @@
 <script setup>
-    import { watch, ref, onBeforeMount } from 'vue';
+    import { watch, ref } from 'vue';
     import { Notyf } from 'notyf';
     import { useRouter } from 'vue-router';
-    import { useGlobalStore } from '../stores/global.js';
     import api from '../api.js';
 
     const email = ref('');
@@ -12,7 +11,6 @@
 
     const notyf = new Notyf();
     const router = useRouter();
-    const { user } = useGlobalStore();
 
     watch([email, password, confirmPass], (currentValue, oldValue) => {
         if (currentValue.every(input => input !== '') && currentValue[1] === currentValue[2]) {
@@ -45,12 +43,6 @@
             notyf.error('Registration Failed. Please contact administrator.');
         }
     }
-
-    onBeforeMount(() => {
-        if (user.token) {
-            router.push({ path: '/' });
-        }
-    });
 </script>
 
 <template>

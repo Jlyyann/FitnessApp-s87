@@ -15,9 +15,15 @@ export const useGlobalStore = defineStore('global', () => {
             return;
         }
 
-        let { data } = await api.get('/users/details');
-        user.token = token;
-        user.email = data.user.email;
+        try {
+            let { data } = await api.get('/users/details');
+            user.token = token;
+            user.email = data.user.email;
+        } catch {
+            localStorage.removeItem('token');
+            user.token = null;
+            user.email = null;
+        }
     }
 
     return {

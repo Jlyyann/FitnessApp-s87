@@ -1,5 +1,5 @@
 <script setup>
-    import { watch, ref, onBeforeMount } from 'vue';
+    import { watch, ref } from 'vue';
     import { Notyf } from 'notyf';
     import { useRouter } from 'vue-router';
     import { useGlobalStore } from '../stores/global';
@@ -7,7 +7,7 @@
 
     const notyf = new Notyf();
     const router = useRouter();
-    const { getUserDetails, user } = useGlobalStore();
+    const { getUserDetails } = useGlobalStore();
 
     const email = ref('');
     const password = ref('');
@@ -43,12 +43,6 @@
             notyf.error('Login Failed. Please contact administrator.');
         }
     }
-
-    onBeforeMount(() => {
-        if (user.token) {
-            router.push({ path: '/' });
-        }
-    });
 </script>
 
 <template>

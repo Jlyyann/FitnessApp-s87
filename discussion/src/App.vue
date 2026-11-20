@@ -2,10 +2,12 @@
     import { onBeforeMount } from 'vue';
     import { useGlobalStore } from './stores/global';
     import Navbar from './components/NavbarComponent.vue';
+    import Footer from './components/FooterComponent.vue';
 
     export default {
         components: {
-            Navbar
+            Navbar,
+            Footer
         },
         setup() {
             const { getUserDetails } = useGlobalStore();
@@ -22,4 +24,5 @@
   <div class="container">
     <router-view />
   </div>
+  <Footer />
 </template>
