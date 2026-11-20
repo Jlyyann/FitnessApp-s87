@@ -1,7 +1,15 @@
 <script setup>
     import { useGlobalStore } from '../stores/global';
+    import { useRouter } from 'vue-router';
 
-    const { user } = useGlobalStore();
+    const { user, getUserDetails } = useGlobalStore();
+    const router = useRouter();
+
+    function logoutUser() {
+        localStorage.clear();
+        getUserDetails(null);
+        router.push({ path: '/login' });
+    }
 </script>
 
 <template>
@@ -22,7 +30,7 @@
                     <router-link :to="{ name: 'Login' }" class="nav-link" v-if="!user.email">Login</router-link>
                     <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!user.email">Register</router-link>
 
-                    <router-link :to="{ name: 'Logout' }" class="nav-link logout-link" v-else>Logout</router-link>
+                    <a href="#" class="nav-link logout-link" v-else v-on:click.prevent="logoutUser">Logout</a>
                 </ul>
             </div>
         </div>
